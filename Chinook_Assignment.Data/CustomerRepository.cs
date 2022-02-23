@@ -62,6 +62,25 @@ namespace Chinook.Data
             }
         }
         /// <summary>
+        ///  Searches for a specific customer and displays the first partial match, matches against firstname
+        /// for this assignment i assume that name means firstname.
+        /// </summary>
+        public void DisplayCustomerToConsoleByFirstName(string customerName)
+        {
+            var customer = _context.Customers.TagWith("consoleApp.Program.GetCustomerBySpecificName")
+                .Where(customer => EF.Functions.Like(customer.FirstName, $"%{customerName}%")).ToList();
+
+            if (customer[0] is null || customer.Count == 0)
+            {
+                Console.WriteLine("No customer with that name was found");
+            }
+            MakeColumnHead();
+            Console.WriteLine("{0,6} {1,-15} {2,-15} {3,-15} {4, -15} {5, -20} {6, -18}",
+                customer[0].CustomerId, customer[0].FirstName, customer[0].LastName,
+                customer[0].Country, customer[0].PostalCode, customer[0].Phone, customer[0].Email);
+        }
+
+        /// <summary>
         /// Searches for customers where the first name begins with the userInputted string "customerName"
         /// for this assignment i assume that name means firstname
         /// </summary>
@@ -87,25 +106,6 @@ namespace Chinook.Data
             {
                 Console.WriteLine(ex.Message);
             }
-
-        }
-        /// <summary>
-        ///  Searches for a specific customer and displays the first partial match, matches against firstname
-        /// for this assignment i assume that name means firstname.
-        /// </summary>
-        public void DisplayCustomerToConsoleByFirstName(string customerName)
-        {
-            var customer = _context.Customers.TagWith("consoleApp.Program.GetCustomerBySpecificName")
-                .Where(customer => EF.Functions.Like(customer.FirstName, $"%{customerName}%")).ToList();
-
-            if (customer[0] is null || customer.Count == 0)
-            {
-                Console.WriteLine("No customer with that name was found");
-            }
-            MakeColumnHead();
-            Console.WriteLine("{0,6} {1,-15} {2,-15} {3,-15} {4, -15} {5, -20} {6, -18}",
-                customer[0].CustomerId, customer[0].FirstName, customer[0].LastName,
-                customer[0].Country, customer[0].PostalCode, customer[0].Phone, customer[0].Email);
         }
 
         /// <summary>
@@ -136,6 +136,7 @@ namespace Chinook.Data
 
             return new List<Customer>();
         }
+
         /// <summary>
         /// Adds a customer according to assignment specs, normally i would have added the option for adding all the fields,
         /// in this case i leave it be to avoid cluttering.
