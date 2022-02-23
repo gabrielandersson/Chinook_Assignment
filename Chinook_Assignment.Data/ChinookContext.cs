@@ -24,17 +24,18 @@ namespace Chinook.Data
         public virtual DbSet<Track> Tracks { get; set; }
 
         /// <summary>
-        /// Here i have used a logger/filter and called on a method called EnableSensitiveDataLogging in order to
-        /// see what SQL EFCore translates my code into, very handy, very neat ^^ 
+        /// Here i have used a logger/filter and called on a method called EnableSensitiveDataLogging so i can
+        /// see what SQL EFCore translates my code into. Commented out those parts for a more clean presentation,
+        /// but feel free to uncomment it and see what happens behind the hood.
         /// </summary>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(
-                    "Data Source=LAPTOP-AWZUM\\SQLEXPRESS;Initial Catalog=Chinook;Integrated Security=True;")
-                    .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
-                    .EnableSensitiveDataLogging();
+                    "Data Source=LAPTOP-AWZUM\\SQLEXPRESS;Initial Catalog=Chinook;Integrated Security=True;");
+                //  .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
+                //  .EnableSensitiveDataLogging();  //To be used if you want to see what happens behind the scenes
             }
         }
         /// <summary>

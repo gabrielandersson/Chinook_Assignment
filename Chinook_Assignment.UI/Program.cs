@@ -10,7 +10,7 @@ namespace Chinook_Assignment.UI
             //Just uncomment to try the methods out ^^ 
 
             IAssignmentRepository repo = new CustomerRepository();
-
+            
             // repo.DisplayCustomersToConsole();                    //1
 
             // repo.DisplayCustomerToConsoleById(5);                //2
@@ -23,15 +23,15 @@ namespace Chinook_Assignment.UI
 
             // repo.AddCustomer("Gabriel", "Mr.Anderson", "6666", "0000", "at@Awesome.com", "Sweden");   //5
 
-            // repo.UpdateCustomerById(59, "melvin", "melvinsson", "pppp", "at@Awesome.com", "glhf", "the awesome Country");                            //6
+            // repo.UpdateCustomerById(59, "melvin", "melvinsson", "pppp", "at@Awesome.com", "glhf", "the awesome Country"); //6                          //6
 
-            // repo.ShowCustomersPerCountry();                      //6
+            // repo.ShowCustomersPerCountry();                      //7
 
-            //repo.ShowHighestSpenders();                          //7
+            // repo.ShowHighestSpenders();                          //8
+            
+            // repo.ShowCustomerMostPopularGenre(1);                //9A
 
-            // repo.ShowCustomerMostPopularGenre(1);                //8A
-
-            // repo.ShowCustomerMostPopularGenre(2);                //8B
+            // repo.ShowCustomerMostPopularGenre(2);                //9B
         }
     }
 }

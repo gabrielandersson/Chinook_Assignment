@@ -11,6 +11,14 @@ namespace Chinook.Data
     {
         private static ChinookContext _context = new ChinookContext();
 
+        public void MakeColumnHead()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(string.Format("{0,6} {1,-15} {2,-15} {3,-15} {4,-15} {5, -20} {6, -18}", "Id", "FirstName", "LastName", "Country", "PostalCode", "PhoneNumber", "Email"));
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.White;
+        }
         public CustomerRepository()
         {
             _context.Database.EnsureCreated();
@@ -26,11 +34,12 @@ namespace Chinook.Data
             {
                 Console.WriteLine("No customers were found");
             }
+            MakeColumnHead();
             foreach (var customer in customers)
             {
-                Console.WriteLine($" {customer.CustomerId} {customer.FirstName} {customer.LastName} " +
-                                  $" {customer.Country} {customer.PostalCode} {customer.Phone} " +
-                                  $" {customer.Email}");
+                Console.WriteLine("{0,6} {1,-15} {2,-15} {3,-15} {4, -15} {5, -20} {6, -18}",
+                    customer.CustomerId, customer.FirstName, customer.LastName,
+                    customer.Country, customer.PostalCode, customer.Phone, customer.Email);
             }
         }
         /// <summary>
@@ -46,9 +55,10 @@ namespace Chinook.Data
             }
             else
             {
-                Console.WriteLine($" {customer.CustomerId} {customer.FirstName} {customer.LastName} " +
-                                  $" {customer.Country} {customer.PostalCode} {customer.Phone} " +
-                                  $" {customer.Email}");
+                MakeColumnHead();
+                Console.WriteLine("{0,6} {1,-15} {2,-15} {3,-15} {4, -15} {5, -20} {6, -18}",
+                    customer.CustomerId, customer.FirstName, customer.LastName, customer.Country,
+                    customer.PostalCode, customer.Phone, customer.Email);
             }
         }
         /// <summary>
@@ -61,12 +71,12 @@ namespace Chinook.Data
             {
                 var customers = _context.Customers.TagWith("consoleApp.Program.GetCustomerByFirstNameBeginsWith")
                     .Where(customer => EF.Functions.Like(customer.FirstName, $"{customerName}%")).ToList();
-
+                MakeColumnHead();
                 foreach (var customer in customers)
                 {
-                    Console.WriteLine($"\n{customer.CustomerId} {customer.FirstName} {customer.LastName} " +
-                                      $" {customer.Country} {customer.PostalCode} {customer.Phone} " +
-                                      $" {customer.Email}");
+                    Console.WriteLine("{0,6} {1,-15} {2,-15} {3,-15} {4, -15} {5, -20} {6, -18}",
+                        customer.CustomerId, customer.FirstName, customer.LastName,
+                        customer.Country, customer.PostalCode, customer.Phone, customer.Email);
                 }
             }
             catch (NullReferenceException ex)
@@ -92,9 +102,10 @@ namespace Chinook.Data
             {
                 Console.WriteLine("No customer with that name was found");
             }
-            Console.WriteLine($" {customer[0].CustomerId} {customer[0].FirstName} {customer[0].LastName} " +
-                              $" {customer[0].Country} {customer[0].PostalCode} {customer[0].Phone} " +
-                              $" {customer[0].Email}");
+            MakeColumnHead();
+            Console.WriteLine("{0,6} {1,-15} {2,-15} {3,-15} {4, -15} {5, -20} {6, -18}",
+                customer[0].CustomerId, customer[0].FirstName, customer[0].LastName,
+                customer[0].Country, customer[0].PostalCode, customer[0].Phone, customer[0].Email);
         }
 
         /// <summary>
@@ -105,11 +116,12 @@ namespace Chinook.Data
             try
             {
                 var customers = _context.Customers.Skip(offset).Take(limit).ToList();
+                MakeColumnHead();
                 foreach (var customer in customers)
                 {
-                    Console.WriteLine($" {customer.CustomerId} {customer.FirstName} {customer.LastName} " +
-                                      $" {customer.Country} {customer.PostalCode} {customer.Phone} " +
-                                      $" {customer.Email}");
+                    Console.WriteLine("{0,6} {1,-15} {2,-15} {3,-15} {4, -15} {5, -20} {6, -18}",
+                        customer.CustomerId, customer.FirstName, customer.LastName,
+                        customer.Country, customer.PostalCode, customer.Phone, customer.Email);
                 }
                 return customers;
             }
@@ -131,17 +143,25 @@ namespace Chinook.Data
         public void AddCustomer(string firstName, string lastName, string postalCode, string phone
                            , string email, string country)
         {
-            var customer = new Customer()
+            try
             {
-                FirstName = firstName,
-                LastName = lastName,
-                PostalCode = postalCode,
-                Country = country,
-                Phone = phone,
-                Email = email
-            };
-            _context.Customers.Add(customer);
-            _context.SaveChanges();
+                var customer = new Customer()
+                {
+                    FirstName = firstName,
+                    LastName = lastName,
+                    PostalCode = postalCode,
+                    Country = country,
+                    Phone = phone,
+                    Email = email
+                };
+                _context.Customers.Add(customer);
+                _context.SaveChanges();
+                Console.WriteLine($"{firstName} was added successfully to the database!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
         /// <summary>
         /// Updates a customer from the database
@@ -149,21 +169,30 @@ namespace Chinook.Data
         public void UpdateCustomerById(int id, string firstName, string lastName, string postalCode,
                                                        string phone, string email, string country)
         {
-            var customer = _context.Customers.Find(id);
-            if (customer is null)
+            try
             {
-                Console.WriteLine("Sorry no customer with that id was found!");
+                var customer = _context.Customers.Find(id);
+                if (customer is null)
+                {
+                    Console.WriteLine("Sorry no customer with that id was found!");
+                }
+                else
+                {
+                    customer.FirstName = firstName;
+                    customer.LastName = lastName;
+                    customer.PostalCode = postalCode;
+                    customer.Phone = phone;
+                    customer.Email = email;
+                    customer.Country = country;
+                    _context.SaveChanges();
+                    Console.WriteLine($"The update of {firstName} with id {id} was successful!");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                customer.FirstName = firstName;
-                customer.LastName = lastName;
-                customer.PostalCode = postalCode;
-                customer.Phone = phone;
-                customer.Email = email;
-                customer.Country = country;
-                _context.SaveChanges();
+                Console.WriteLine(ex.Message);
             }
+
         }
         /// <summary>
         /// Shows the number of customers in each country ordered descending
@@ -172,9 +201,15 @@ namespace Chinook.Data
         {
             var customers = _context.Customers.GroupBy(c => c.Country).Select(c =>
                 new { Country = c.Key, Total = c.Count() }).OrderByDescending(c => c.Total).ToList();
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("{0,-24} {1,-15}", "Country", "Total");
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.White;
             foreach (var item in customers)
             {
-                Console.WriteLine($"Country: {item.Country} {item.Total}");
+                Console.WriteLine("{0, -24} {1, -15}", item.Country, item.Total);
             }
         }
 
@@ -190,9 +225,15 @@ namespace Chinook.Data
                     Total = i.Total,
                     customerName = $"{i.Customer.FirstName} {i.Customer.LastName}"
                 }).OrderByDescending(i => i.Total).ThenBy(i => i.FirstName);
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("{0,-24} {1,-15}", "Name", "TotalSpent");
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.White;
             foreach (var customer in highestSpenders)
             {
-                Console.WriteLine($"{customer.customerName} || TotalSpent: {customer.Total}");
+                Console.WriteLine("{0, -24} {1, -15}", customer.customerName, customer.Total);
             }
         }
 
@@ -210,11 +251,15 @@ namespace Chinook.Data
             }
             if (sql.Count() == 2)
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("\nCustomers favorite genre is both: {0} and {1}", sql[0].Name, sql[1].Name);
+                Console.ForegroundColor = ConsoleColor.White;
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("\nCustomers most popular genre is: {0}", sql[0].Name);
+                Console.ForegroundColor = ConsoleColor.White;
             }
             return sql;
         }
