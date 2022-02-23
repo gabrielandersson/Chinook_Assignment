@@ -17,12 +17,12 @@ namespace Chinook_Assignment.UI
             // repo.DisplayCustomerToConsoleByFirstName("He");      //3A 
 
             // repo.DisplayCustomersToConsoleByFirstName("a");      //3B
-                
+
             // repo.ReturnPageWithOffsetAndLimit(3, 4);             //4 
 
             // repo.AddCustomer("Gabriel", "Mr.Anderson", "6666", "0000", "at@Awesome.com", "Sweden");   //5
 
-            // repo.UpdateCustomerById(59, "melvin", "melvinsson", "pppp", "at@Awesome.com", "glhf", "the awesome Country"); //6                          //6
+            // repo.UpdateCustomerById(59, "melvin", "melvinsson", "9999", "023456789", "glhf@awesome.com", "the awesome Country"); //6      
 
             // repo.ShowCustomersPerCountry();                      //7
 
