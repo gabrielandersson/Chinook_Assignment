@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-#nullable disable
-
-namespace Chinook.Domain.Models
+﻿namespace Chinook_Assignment.Domain.Models
 {
     public partial class InvoiceLine
     {
@@ -12,7 +7,7 @@ namespace Chinook.Domain.Models
         public int TrackId { get; set; }
         public decimal UnitPrice { get; set; }
         public int Quantity { get; set; }
-        public virtual Invoice Invoice { get; set; }  // to invoice
+        public virtual Invoice Invoice { get; set; }  
         public virtual Track Track { get; set; }  
     }
 }

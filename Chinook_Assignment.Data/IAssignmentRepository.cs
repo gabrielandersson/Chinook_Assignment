@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Chinook.Domain.Models;
+﻿using System.Collections.Generic;
+using Chinook_Assignment.Domain.Models;
 
-namespace Chinook.Data
+namespace Chinook_Assignment.Data
 {
     public interface IAssignmentRepository
     {
@@ -13,13 +9,13 @@ namespace Chinook.Data
         void DisplayCustomerToConsoleById(int customerId);
         void DisplayCustomersToConsoleByFirstName(string customerFirstName);
         void DisplayCustomerToConsoleByFirstName(string customerFirstName);
-        List<Customer> ReturnPage(int offset, int limit);
+        List<Customer> ReturnPageWithOffsetAndLimit(int offset, int limit);
         void AddCustomer(string firstName, string lastName, string postalCode, string phone
             , string email, string country);
         void UpdateCustomerById(int id, string firstName, string lastName, string postalCode,
             string phone, string email, string country);
         void ShowCustomersPerCountry();
         void ShowHighestSpenders();
-        List<Genre> ShowCustomerMostPopularGenre(int id);
+        List<Genre> ShowCustomerMostPopularGenreByCustomerId(int id);
     }
 }

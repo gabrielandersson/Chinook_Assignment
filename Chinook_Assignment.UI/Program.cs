@@ -1,5 +1,4 @@
-﻿using System;
-using Chinook.Data;
+﻿using Chinook_Assignment.Data;
 
 namespace Chinook_Assignment.UI
 {
@@ -10,16 +9,16 @@ namespace Chinook_Assignment.UI
             //Just uncomment to try the methods out ^^ 
 
             IAssignmentRepository repo = new CustomerRepository();
-            
+
             // repo.DisplayCustomersToConsole();                    //1
 
             // repo.DisplayCustomerToConsoleById(5);                //2
 
-            // repo.DisplayCustomerToConsoleByFirstName("He");       //3 A 
+            // repo.DisplayCustomerToConsoleByFirstName("He");      //3A 
 
-            // repo.DisplayCustomersToConsoleByFirstName("a");      //3 B
-
-            // repo.ReturnPage(3, 4);                               //4 
+            // repo.DisplayCustomersToConsoleByFirstName("a");      //3B
+                
+            // repo.ReturnPageWithOffsetAndLimit(3, 4);             //4 
 
             // repo.AddCustomer("Gabriel", "Mr.Anderson", "6666", "0000", "at@Awesome.com", "Sweden");   //5
 
@@ -28,10 +27,10 @@ namespace Chinook_Assignment.UI
             // repo.ShowCustomersPerCountry();                      //7
 
             // repo.ShowHighestSpenders();                          //8
-            
-            // repo.ShowCustomerMostPopularGenre(1);                //9A
 
-            // repo.ShowCustomerMostPopularGenre(2);                //9B
+            // repo.ShowCustomerMostPopularGenreByCustomerId(1);    //9A
+
+            // repo.ShowCustomerMostPopularGenreByCustomerId(2);    //9B
         }
     }
 }

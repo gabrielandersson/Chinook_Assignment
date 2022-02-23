@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-#nullable disable
-
-namespace Chinook.Domain.Models
+namespace Chinook_Assignment.Domain.Models
 {
     public partial class Customer
     {

@@ -1,11 +1,10 @@
-﻿using System;
-using Chinook.Domain.Models;
+﻿using Chinook_Assignment.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 
-//So i have used a db first approach here,  
-namespace Chinook.Data
+//So i have used a db first approach here, this context represents a database session and each of the Dbsets residing 
+// inside represents a repository. 
+namespace Chinook_Assignment.Data
 {
     public partial class ChinookContext : DbContext
     {
@@ -47,8 +46,6 @@ namespace Chinook.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
-
-
 
             modelBuilder.Entity<Customer>(entity =>
             {

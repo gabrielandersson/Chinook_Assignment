@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-#nullable disable
-
-namespace Chinook.Domain.Models
+namespace Chinook_Assignment.Domain.Models
 {
     public partial class Track
     {
@@ -21,6 +18,6 @@ namespace Chinook.Domain.Models
         public int? Bytes { get; set; }
         public decimal UnitPrice { get; set; }
         public virtual Genre Genre { get; set; }
-        public virtual ICollection<InvoiceLine> InvoiceLines { get; set; }  // to InvoiceLines
+        public virtual ICollection<InvoiceLine> InvoiceLines { get; set; } 
     }
 }

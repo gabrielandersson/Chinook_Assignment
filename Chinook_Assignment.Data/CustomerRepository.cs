@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Chinook.Domain.Models;
+using Chinook_Assignment.Domain.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chinook.Data
+namespace Chinook_Assignment.Data
 {
+    //So this customer repository is not strictly necessary, but i chose to use make a separate repository class that 
+    //have the context as a dependency. I made this choice to make it easier to discern the assignment logic from
+    //the logic that strictly concerns itself with EFCore
     public class CustomerRepository : IAssignmentRepository
     {
         private static ChinookContext _context = new ChinookContext();
@@ -14,7 +17,7 @@ namespace Chinook.Data
         public void MakeColumnHead()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(string.Format("{0,6} {1,-15} {2,-15} {3,-15} {4,-15} {5, -20} {6, -18}", "Id", "FirstName", "LastName", "Country", "PostalCode", "PhoneNumber", "Email"));
+            Console.WriteLine("{0,6} {1,-15} {2,-15} {3,-15} {4,-15} {5, -20} {6, -18}", "Id", "FirstName", "LastName", "Country", "PostalCode", "PhoneNumber", "Email");
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.White;
@@ -111,7 +114,7 @@ namespace Chinook.Data
         /// <summary>
         /// Returns a "page", offset is where in the table you start retrieving rows, limit is how many rows you want
         /// </summary>
-        public List<Customer> ReturnPage(int offset, int limit)
+        public List<Customer> ReturnPageWithOffsetAndLimit(int offset, int limit)
         {
             try
             {
@@ -241,7 +244,7 @@ namespace Chinook.Data
         /// <summary>
         ///  Shows the customers most popular genre, in case of ties it only shows the first two genre's on equal footing.
         /// </summary>
-        public List<Genre> ShowCustomerMostPopularGenre(int id)
+        public List<Genre> ShowCustomerMostPopularGenreByCustomerId(int id)
         {
             var sql = _context.Genres.FromSqlInterpolated(
                 $"SELECT TOP 1 WITH TIES genre.Name, genre.GenreId ,COUNT(*) AS NumInEachGenre\r\nFROM Genre\r\nJOIN Track ON genre.GenreId = Track.GenreId\r\nJOIN InvoiceLine ON Track.TrackId = InvoiceLine.InvoiceLineId\r\nJOIN Invoice ON InvoiceLine.InvoiceId = Invoice.InvoiceId\r\nJOIN Customer ON Invoice.CustomerId = Customer.CustomerId\r\nWHERE Customer.CustomerId = {id}\r\nGROUP BY genre.GenreId, Genre.Name\r\nORDER BY NumInEachGenre DESC").ToList();
