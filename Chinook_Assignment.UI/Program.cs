@@ -6,7 +6,7 @@ namespace Chinook_Assignment.UI
     {
         static void Main(string[] args)
         {
-            //Just uncomment to try the methods out ^^ 
+            //Just uncomment to try the methods out ^^
 
             IAssignmentRepository repo = new CustomerRepository();
 

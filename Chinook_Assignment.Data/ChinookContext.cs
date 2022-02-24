@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 
 //So i have used a db first approach here, this context represents a database session and each of the Dbsets residing 
-// inside represents a repository. 
+// inside is a repository. The OnConfiguring method - when overriden, as the name suggests - helps with configuring
+// the db that gets used with the context. 
 namespace Chinook_Assignment.Data
 {
-    public partial class ChinookContext : DbContext
+    public class ChinookContext : DbContext
     {
         public ChinookContext()
         {
@@ -32,14 +33,14 @@ namespace Chinook_Assignment.Data
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(
-                    "Data Source=LAPTOP-AWZUM\\SQLEXPRESS;Initial Catalog=Chinook;Integrated Security=True;");
+                    "");  //Insert Connection string here
                 //  .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
                 //  .EnableSensitiveDataLogging();  //To be used if you want to see what happens behind the scenes
             }
         }
         /// <summary>
-        /// With the OnModelCreating i can modify such things as which properties that should be enforced to include
-        /// when creating a new instance of a model. Herein we also specify things as which table the entity maps to and
+        /// With the OnModelCreating i can modify such things as which properties that should be forced to be included
+        /// when we create a new instance of a model. Here we also specify things such as which table the entity maps to and
         /// how the relationships between the tables look.
         /// </summary>
         /// <param name="modelBuilder"></param>
@@ -156,6 +157,5 @@ namespace Chinook_Assignment.Data
                     .HasConstraintName("FK_TrackGenreId");
             });
         }
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
